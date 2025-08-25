@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos da Linguagem - Rust Básico em PTBR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="instalacao.html">Instalação</a></li>
+                <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html" class="active">Fundamentos</a></li>
+                <li><a href="ownership.html">Ownership</a></li>
+                <li><a href="testes.html">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Fundamentos da Linguagem Rust</h1>
+        
+        <p>Agora que você já criou meiro projeto, vamos explorar os conceitos fundamentais da linguagem Rust. Estes conceitos formam a base para tudo que você fará com Rust.</p>
+
+        <h2 class="section-subtitle">Variáveis e Imutabilidade</h2>
+        
+        <p>Uma das características mais distintivas do Rust é que <strong>variáveis são imutáveis por padrão</strong>. Isso significa que, uma vez que você atribui um valor a uma variável, não pode alterá-lo.</p>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title"> Variável Imutável</div>
+                <div class="code-block">
+let x = 10;
+<span class="comment">// x = 20; // ERRO! Não pode alterar</span>
+
+println!("x = {}", x); <span class="comment">// x = 10</span>
+                </div>
+                <p>Por padrão, variáveis não podem ser alteradas após a atribuição inicial.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"> Variável Mutável</div>
+                <div class="code-block">
+let <span class="highlight">mut</span> y = 10;
+y = 20; <span class="comment">// OK! Pode alterar</span>
+y += 5; <span class="comment">// y agora é 25</span>
+
+println!("y = {}", y); <span class="comment">// y = 25</span>
+                </div>
+                <p>Use a palavra-chave <code>mut</code> para tornar uma variável mutável.</p>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-lightbulb"></i> Por que Imutabilidade por Padrão?</h4>
+            <p>A imutabilidade por padrão torna o código mais previsível e evita bugs comuns. Você precisa ser explícito quando quer mutabilidade, o que força você a pensar sobre quando e onde os dados podem mudar.</p>
+        </div>
+
+        <h2 class="section-subtitle">Tipos de Dados</h2>
+        
+        <p>Rust tem tipagem estática forte, mas consegue inferir a maioria dos tipos automaticamente. Aqui estão os tipos mais comuns:</p>
+        
+        <div class="code-block">
+<span class="comment">// Números inteiros</span>
+let idade: <span class="highlight">u32</span> = 25;        <span class="comment">// unsigned 32-bit (0 a 4,294,967,295)</span>
+let temperatura: <span class="highlight">i32</span> = -10;   <span class="comment">// signed 32-bit (-2,147,483,648 a 2,147,483,647)</span>
+let pequeno: <span class="highlight">u8</span> = 255;       <span class="comment">// unsigned 8-bit (0 a 255)</span>
+
+<span class="comment">// Números decimais</span>
+let altura: <span class="highlight">f64</span> = 1.75;      <span class="comment">// 64-bit float (padrão)</span>
+let peso: <span class="highlight">f32</span> = 70.5;       <span class="comment">// 32-bit float</span>
+
+<span class="comment">// Texto</span>
+let nome: <span class="highlight">&str</span> = "João";     <span class="comment">// string slice (referência)</span>
+let sobrenome: <span class="highlight">String</span> = String::from("Silva"); <span class="comment">// owned string</span>
+
+<span class="comment">// Booleano</span>
+let ativo: <span class="highlight">bool</span> = true;      <span class="comment">// true ou false</span>
+
+<span class="comment">// Caractere Unicode</span>
+let letra: <span class="highlight">char</span> = '🦀';       <span class="comment">// 4 bytes, suporta Unicode</span>
+        </div>
+        
+        <div class="info-box tip">
+            <h4><i class="fas fa-magic"></i> Inferência de Tipos</h4>
+            <p>Na maioria dos casos, você não precisa especificar o tipo explicitamente:</p>
+            <div class="code-block">
+let numero = 42;        <span class="comment">// Rust infere i32</span>
+let pi = 3.14;          <span class="comment">// Rust infere f64</span>
+let nome = "Ferris";    <span class="comment">// Rust infere &str</span>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Funções</h2>
+        
+        <p>Funções são blocos de código reutilizáveis. Em Rust, elas são definidas com a palavra-chave <code>fn</code>:</p>
+        
+        <div class="code-block">
+<span class="comment">// Função simples sem retorno</span>
+fn saudar() {
+    println!("Olá, mundo!");
+}
+
+<span class="comment">// Função com parâmetros</span>
+fn saudar_pessoa(nome: &str) {
+    println!("Olá, {}!", nome);
+}
+
+<span class="comment">// Função com retorno</span>
+fn soma(a: i32, b: i32) -> i32 {
+    a + b <span class="comment">// Retorno implícito (sem ponto-e-vírgula!)</span>
+}
+
+<span class="comment">// Função com retorno explícito</span>
+fn multiplicacao(a: i32, b: i32) -> i32 {
+    return a * b; <span class="comment">// Retorno explícito com return</span>
+}
+
+fn main() {
+    saudar();
+    saudar_pessoa("Ferris");
+    
+    let resultado = soma(10, 5);
+    println!("10 + 5 = {}", resultado);
+    
+    let produto = multiplicacao(4, 7);
+    println!("4 × 7 = {}", produto);
+}
+        </div>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-arrow-right"></i></div>
+                <div><strong>Retorno implícito</strong>: A última expressão (sem ;) é o valor retornado</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-undo"></i></div>
+                <div><strong>Retorno explícito</strong>: Use <code>return</code> para retornar antes do final</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-list"></i></div>
+                <div><strong>Parâmetros</strong>: Sempre devem ter tipo especificado</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-tag"></i></div>
+                <div><strong>Tipo de retorno</strong>: Especificado após <code>-></code></div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Controle de Fluxo</h2>
+        
+        <h3>If como Expressão</h3>
+        <p>Em Rust, <code>if</code> é uma expressão, não apenas uma declaração. Isso significa que pode retornar um valor:</p>
+        
+        <div class="code-block">
+let numero = 7;
+
+<span class="comment">// If como expressão</span>
+let tipo = <span class="highlight">if</span> numero % 2 == 0 {
+    "par"
+} <span class="highlight">else</span> {
+    "ímpar"
+};
+
+println!("{} é {}", numero, tipo);
+
+<span class="comment">// If tradicional</span>
+<span class="highlight">if</span> numero > 10 {
+    println!("Número grande!");
+} <span class="highlight">else if</span> numero > 5 {
+    println!("Número médio!");
+} <span class="highlight">else</span> {
+    println!("Número pequeno!");
+}
+        </div>
+
+        <h3>Loops</h3>
+        <p>Rust oferece várias formas de criar loops:</p>
+        
+        <div class="two-columns">
+            <div>
+                <h4>Loop com Range</h4>
+                <div class="code-block">
+<span class="comment">// Loop de 1 a 5 (inclusivo)</span>
+<span class="highlight">for</span> i in 1..=5 {
+    println!("i = {}", i);
+}
+
+<span class="comment">// Loop de 0 a 4 (exclusivo)</span>
+<span class="highlight">for</span> i in 0..5 {
+    println!("i = {}", i);
+}
+
+<span class="comment">// Iterando sobre array</span>
+let numeros = [1, 2, 3, 4, 5];
+<span class="highlight">for</span> numero in numeros {
+    println!("número: {}", numero);
+}
+                </div>
+            </div>
+            
+            <div>
+                <h4>While e Loop</h4>
+                <div class="code-block">
+<span class="comment">// Loop condicional</span>
+let mut contador = 0;
+<span class="highlight">while</span> contador < 3 {
+    println!("contador: {}", contador);
+    contador += 1;
+}
+
+<span class="comment">// Loop infinito</span>
+let mut x = 0;
+<span class="highlight">loop</span> {
+    x += 1;
+    if x == 5 {
+        <span class="highlight">break</span>; <span class="comment">// Sai do loop</span>
+    }
+    if x % 2 == 0 {
+        <span class="highlight">continue</span>; <span class="comment">// Pula para próxima iteração</span>
+    }
+    println!("x = {}", x);
+}
+                </div>
+            </div>
+        </div>
+
+        <h3>Pattern Matching com match</h3>
+        <p>O <code>match</code> é uma das características mais poderosas do Rust. É como um <code>switch</code> superpoderoso:</p>
+        
+        <div class="code-block">
+let numero = 3;
+
+<span class="highlight">match</span> numero {
+    0 => println!("Zero!"),
+    1 => println!("Um!"),
+    2 | 3 => println!("Dois ou três!"), <span class="comment">// Múltiplos valores</span>
+    4..=9 => println!("Entre 4 e 9!"),   <span class="comment">// Range</span>
+    _ => println!("Outro número!"),      <span class="comment">// Catch-all</span>
+}
+
+<span class="comment">// Match como expressão</span>
+let descricao = <span class="highlight">match</span> numero {
+    0 => "zero",
+    1..=5 => "pequeno",
+    6..=10 => "médio",
+    _ => "grande",
+};
+
+println!("O número {} é {}", numero, descricao);
+        </div>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-star"></i> Poder do Match</h4>
+            <p>O <code>match</code> em Rust é <strong>exaustivo</strong>, ou seja, você deve cobrir todos os casos possíveis. O compilador garante que você não esqueça nenhum caso!</p>
+        </div>
+
+        <h2 class="section-subtitle">Exemplo Prático</h2>
+        
+        <p>Vamos criar um programa que demonstra todos esses conceitos:</p>
+        
+        <div class="code-block">
+fn calcular_categoria_idade(idade: u32) -> &'static str {
+    <span class="highlight">match</span> idade {
+        0..=12 => "criança",
+        13..=17 => "adolescente",
+        18..=64 => "adulto",
+        _ => "idoso",
+    }
+}
+
+fn eh_par(numero: i32) -> bool {
+    numero % 2 == 0
+}
+
+fn main() {
+    <span class="comment">// Variáveis</span>
+    let nome = "Ana";
+    let mut idade = 25;
+    let altura = 1.65;
+    
+    println!("Nome: {}", nome);
+    println!("Idade: {} anos", idade);
+    println!("Altura: {:.2}m", altura);
+    
+    <span class="comment">// Usando funções</span>
+    let categoria = calcular_categoria_idade(idade);
+    println!("Categoria: {}", categoria);
+    
+    <span class="comment">// Controle de fluxo</span>
+    <span class="highlight">if</span> eh_par(idade as i32) {
+        println!("Idade é par");
+    } <span class="highlight">else</span> {
+        println!("Idade é ímpar");
+    }
+    
+    <span class="comment">// Loop</span>
+    println!("Contando até a idade:");
+    <span class="highlight">for</span> i in 1..=idade {
+        <span class="highlight">if</span> i % 5 == 0 {
+            println!("  {} (múltiplo de 5!)", i);
+        }
+    }
+    
+    <span class="comment">// Modificando variável mutável</span>
+    idade += 1;
+    println!("No próximo ano terá {} anos", idade);
+}
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-graduation-cap"></i> Você Aprendeu</h4>
+            <ul>
+                <li>Variáveis são imutáveis por padrão, use <code>mut</code> para mutabilidade</li>
+                <li>Rust tem tipos estáticos mas infere automaticamente na maioria dos casos</li>
+                <li>Funções podem ter retorno implícito (última expressão sem ;)</li>
+                <li><code>if</code> é uma expressão que pode retornar valores</li>
+                <li>Loops: <code>for</code>, <code>while</code> e <code>loop</code></li>
+                <li><code>match</code> é um pattern matching poderoso e exaustivo</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="primeiro-projeto.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Iniciando Um Projeto
+            </a>
+            <a href="ownership.html" class="nav-button">
+                Ownership <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

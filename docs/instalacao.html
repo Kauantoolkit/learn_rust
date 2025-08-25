@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação e Setup - Rust Básico em PTBR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="instalacao.html" class="active">Instalação</a></li>
+                <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html">Fundamentos</a></li>
+                <li><a href="ownership.html">Ownership</a></li>
+                <li><a href="testes.html">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Instalação e Setup</h1>
+        
+        <p>A instalação do Rust é surpreendentemente simples graças ao <strong>rustup</strong>, o gerenciador oficial de versões do Rust. O rustup não instala apenas o compilador, mas todo um ecossistema de ferramentas poderosas.</p>
+
+        <h2 class="section-subtitle">Instalação com Rustup</h2>
+        
+        <p>Para instalar o Rust no Linux, macOS ou Windows com WSL, execute o seguinte comando no terminal:</p>
+        
+        <div class="code-block">
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        </div>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> Instalação no Windows</h4>
+            <p>Para Windows nativo, baixe o instalador em <a href="https://rustup.rs/" target="_blank">rustup.rs</a> e execute o arquivo .exe.</p>
+        </div>
+
+        <p>Durante a instalação:</p>
+        <ol>
+            <li>Escolha a instalação padrão (opção 1)</li>
+            <li>Aguarde o download e instalação das ferramentas</li>
+            <li>Feche e abra o terminal novamente</li>
+        </ol>
+
+        <h2 class="section-subtitle">Verificando a Instalação</h2>
+        
+        <p>Após a instalação, verifique se tudo foi instalado corretamente:</p>
+        
+        <div class="terminal-block">
+$ rustc --version
+rustc 1.70.0 (90c541806 2023-05-31)
+
+$ cargo --version
+cargo 1.70.0 (ec8a8a0ca 2023-04-25)
+        </div>
+
+        <h2 class="section-subtitle">Ferramentas Instaladas</h2>
+        
+        <p>O rustup instala automaticamente um conjunto completo de ferramentas:</p>
+        
+        <div class="two-columns">
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-box"></i> cargo</div>
+                <p><strong>Gerenciador de pacotes e sistema de build</strong></p>
+                <p>O Cargo é seu melhor amigo no desenvolvimento Rust. Ele gerencia dependências, compila projetos, executa testes e muito mais.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-code"></i> rustc</div>
+                <p><strong>Compilador do Rust</strong></p>
+                <p>O compilador oficial que transforma seu código Rust em executáveis otimizados. Raramente usado diretamente - o Cargo cuida disso.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-align-left"></i> rustfmt</div>
+                <p><strong>Formatador de código</strong></p>
+                <p>Formata automaticamente seu código seguindo as convenções oficiais do Rust. Integra-se perfeitamente com editores.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-search"></i> clippy</div>
+                <p><strong>Linter e analisador</strong></p>
+                <p>Um "assistente" inteligente que aponta erros comuns, sugere melhorias e ensina boas práticas de Rust.</p>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Configuração do Editor</h2>
+        
+        <div class="info-box tip">
+            <h4><i class="fas fa-lightbulb"></i> Recomendação: VS Code + rust-analyzer</h4>
+            <p>Para a melhor experiência de desenvolvimento, recomendamos:</p>
+            <ol>
+                <li>Instalar o <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
+                <li>Instalar a extensão <strong>rust-analyzer</strong> da Microsoft Store de extensões</li>
+                <li>A extensão oferece: auto-complete, verificação de erros em tempo real, refatoração e muito mais</li>
+            </ol>
+        </div>
+
+        <h2 class="section-subtitle">Mantendo o Rust Atualizado</h2>
+        
+        <p>O Rust tem um ciclo de lançamento de 6 semanas. Para manter suas ferramentas atualizadas:</p>
+        
+        <div class="code-block">
+<span class="comment"># Atualizar todas as ferramentas do Rust</span>
+rustup update
+
+<span class="comment"># Verificar versões instaladas</span>
+rustup show
+
+<span class="comment"># Instalar uma versão específica (opcional)</span>
+rustup install stable
+rustup install beta
+rustup install nightly
+        </div>
+
+        <h2 class="section-subtitle">Comandos Úteis do Rustup</h2>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-download"></i></div>
+                <div><code>rustup update</code> - Atualiza todas as ferramentas</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-list"></i></div>
+                <div><code>rustup show</code> - Mostra versões instaladas</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-cog"></i></div>
+                <div><code>rustup default stable</code> - Define versão padrão</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-question-circle"></i></div>
+                <div><code>rustup --help</code> - Ajuda completa</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-check-circle"></i> Instalação Concluída!</h4>
+            <p>Parabéns! Você agora tem um ambiente Rust completo instalado. Na próxima seção, vamos criar Iniciando Um Projeto e executar o famoso "Olá, Mundo!".</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Voltar ao Início
+            </a>
+            <a href="primeiro-projeto.html" class="nav-button">
+                Iniciando Um Projeto <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

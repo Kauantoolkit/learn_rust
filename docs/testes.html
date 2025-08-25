@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes Nativos - Rust Básico em PTBR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="instalacao.html">Instalação</a></li>
+                <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html">Fundamentos</a></li>
+                <li><a href="ownership.html">Ownership</a></li>
+                <li><a href="testes.html" class="active">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Testes Nativos em Rust</h1>
+        
+        <p>Uma das características mais impressionantes do Rust é que <strong>testes são parte da linguagem</strong>. Você não precisa instalar bibliotecas externas ou configurar frameworks complexos - tudo já está integrado!</p>
+
+        <div class="info-box">
+            <h4><i class="fas fa-star"></i> Por que Testes Integrados?</h4>
+            <p>Ter testes como parte da linguagem remove barreiras para escrever testes. O resultado? A comunidade Rust tem uma cultura muito forte de testes, resultando em código mais confiável.</p>
+        </div>
+
+        <h2 class="section-subtitle">Seu Primeiro Teste</h2>
+        
+        <p>Vamos começar com um exemplo simples. Adicione este código ao seu <code>src/main.rs</code>:</p>
+        
+        <div class="code-block">
+<span class="comment">// Função que queremos testar</span>
+fn soma(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+fn main() {
+    println!("2 + 3 = {}", soma(2, 3));
+}
+
+<span class="comment">// Módulo de testes</span>
+#[cfg(test)]
+mod tests {
+    use super::*; <span class="comment">// Importa tudo do módulo pai</span>
+
+    #[test]
+    fn teste_soma_simples() {
+        assert_eq!(soma(2, 3), 5);
+    }
+
+    #[test]
+    fn teste_soma_negativos() {
+        assert_eq!(soma(-1, -2), -3);
+    }
+
+    #[test]
+    fn teste_soma_zero() {
+        assert_eq!(soma(0, 5), 5);
+        assert_eq!(soma(10, 0), 10);
+    }
+}
+        </div>
+
+        <h3>Executando os Testes</h3>
+        
+        <p>Para executar os testes, use o comando <code>cargo test</code>:</p>
+        
+        <div class="terminal-block">
+$ cargo test
+   Compiling ola_rust v0.1.0 (/path/to/ola_rust)
+    Finished test [unoptimized + debuginfo] target(s) in 0.57s
+     Running unittests src/main.rs (target/debug/deps/ola_rust-1a2b3c4d)
+
+running 3 tests
+test tests::teste_soma_simples ... ok
+test tests::teste_soma_negativos ... ok
+test tests::teste_soma_zero ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+        </div>
+
+        <h2 class="section-subtitle">Anatomia de um Teste</h2>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-hashtag"></i></div>
+                <div><code>#[cfg(test)]</code> - Compila apenas durante testes</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-cube"></i></div>
+                <div><code>mod tests</code> - Módulo que contém os testes</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-import"></i></div>
+                <div><code>use super::*</code> - Importa funções do módulo pai</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-check"></i></div>
+                <div><code>#[test]</code> - Marca uma função como teste</div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Macros de Asserção</h2>
+        
+        <p>Rust oferece várias macros para verificar condições em testes:</p>
+        
+        <div class="two-columns">
+            <div>
+                <h3>Asserções Básicas</h3>
+                <div class="code-block">
+#[test]
+fn teste_assercoes_basicas() {
+    <span class="comment">// Verifica se é verdadeiro</span>
+    assert!(true);
+    assert!(2 + 2 == 4);
+    
+    <span class="comment">// Verifica igualdade</span>
+    assert_eq!(2 + 2, 4);
+    assert_eq!("hello", "hello");
+    
+    <span class="comment">// Verifica desigualdade</span>
+    assert_ne!(2 + 2, 5);
+    assert_ne!("hello", "world");
+}
+                </div>
+            </div>
+            
+            <div>
+                <h3>Asserções com Mensagens</h3>
+                <div class="code-block">
+#[test]
+fn teste_com_mensagens() {
+    let x = 10;
+    let y = 20;
+    
+    assert!(
+        x < y,
+        "x deveria ser menor que y: x={}, y={}",
+        x, y
+    );
+    
+    assert_eq!(
+        x + y, 30,
+        "Soma incorreta: {} + {} != 30",
+        x, y
+    );
+}
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Testando Erros com should_panic</h2>
+        
+        <p>Às vezes você quer testar que uma função <em>deve</em> entrar em pânico em certas condições:</p>
+        
+        <div class="code-block">
+fn dividir(a: f64, b: f64) -> f64 {
+    if b == 0.0 {
+        panic!("Divisão por zero!");
+    }
+    a / b
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn teste_divisao_normal() {
+        assert_eq!(dividir(10.0, 2.0), 5.0);
+    }
+
+    #[test]
+    #[should_panic]
+    fn teste_divisao_por_zero() {
+        dividir(10.0, 0.0); <span class="comment">// Deve entrar em pânico</span>
+    }
+
+    #[test]
+    #[should_panic(expected = "Divisão por zero!")]
+    fn teste_divisao_por_zero_com_mensagem() {
+        dividir(10.0, 0.0); <span class="comment">// Deve entrar em pânico com mensagem específica</span>
+    }
+}
+        </div>
+
+        <h2 class="section-subtitle">Testando com Result</h2>
+        
+        <p>Uma abordagem mais moderna é usar <code>Result</code> em vez de pânico:</p>
+        
+        <div class="code-block">
+fn dividir_seguro(a: f64, b: f64) -> Result&lt;f64, String&gt; {
+    if b == 0.0 {
+        Err("Divisão por zero não é permitida".to_string())
+    } else {
+        Ok(a / b)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn teste_divisao_segura_sucesso() -> Result&lt;(), String&gt; {
+        let resultado = dividir_seguro(10.0, 2.0)?;
+        assert_eq!(resultado, 5.0);
+        Ok(())
+    }
+
+    #[test]
+    fn teste_divisao_segura_erro() {
+        let resultado = dividir_seguro(10.0, 0.0);
+        assert!(resultado.is_err());
+        
+        if let Err(msg) = resultado {
+            assert!(msg.contains("Divisão por zero"));
+        }
+    }
+}
+        </div>
+
+        <h2 class="section-subtitle">Organizando Testes</h2>
+        
+        <h3>Testes de Unidade vs Integração</h3>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title"> Testes de Unidade</div>
+                <p><strong>Localização:</strong> Mesmo arquivo que o código</p>
+                <p><strong>Acesso:</strong> Podem testar funções privadas</p>
+                <p><strong>Propósito:</strong> Testar pequenas unidades de código</p>
+                <div class="code-block">
+<span class="comment">// Em src/lib.rs ou src/main.rs</span>
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn teste_funcao_privada() {
+        assert_eq!(funcao_privada(), 42);
+    }
+}
+                </div>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title">Testes de Integração</div>
+                <p><strong>Localização:</strong> Diretório <code>tests/</code></p>
+                <p><strong>Acesso:</strong> Apenas API pública</p>
+                <p><strong>Propósito:</strong> Testar integração entre módulos</p>
+                <div class="code-block">
+<span class="comment">// Em tests/integracao.rs</span>
+use meu_projeto::funcao_publica;
+
+#[test]
+fn teste_integracao() {
+    let resultado = funcao_publica(10);
+    assert_eq!(resultado, 20);
+}
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Exemplo Prático: Calculadora</h2>
+        
+        <p>Vamos criar uma calculadora simples com testes abrangentes:</p>
+        
+        <div class="code-block">
+pub struct Calculadora {
+    resultado: f64,
+}
+
+impl Calculadora {
+    pub fn new() -> Self {
+        Calculadora { resultado: 0.0 }
+    }
+
+    pub fn somar(&mut self, valor: f64) -> &mut Self {
+        self.resultado += valor;
+        self
+    }
+
+    pub fn subtrair(&mut self, valor: f64) -> &mut Self {
+        self.resultado -= valor;
+        self
+    }
+
+    pub fn multiplicar(&mut self, valor: f64) -> &mut Self {
+        self.resultado *= valor;
+        self
+    }
+
+    pub fn dividir(&mut self, valor: f64) -> Result&lt;&mut Self, String&gt; {
+        if valor == 0.0 {
+            Err("Divisão por zero".to_string())
+        } else {
+            self.resultado /= valor;
+            Ok(self)
+        }
+    }
+
+    pub fn resultado(&self) -> f64 {
+        self.resultado
+    }
+
+    pub fn limpar(&mut self) -> &mut Self {
+        self.resultado = 0.0;
+        self
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn teste_nova_calculadora() {
+        let calc = Calculadora::new();
+        assert_eq!(calc.resultado(), 0.0);
+    }
+
+    #[test]
+    fn teste_operacoes_basicas() {
+        let mut calc = Calculadora::new();
+        
+        calc.somar(10.0)
+            .subtrair(3.0)
+            .multiplicar(2.0);
+            
+        assert_eq!(calc.resultado(), 14.0);
+    }
+
+    #[test]
+    fn teste_divisao_sucesso() -> Result&lt;(), String&gt; {
+        let mut calc = Calculadora::new();
+        
+        calc.somar(20.0)
+            .dividir(4.0)?;
+            
+        assert_eq!(calc.resultado(), 5.0);
+        Ok(())
+    }
+
+    #[test]
+    fn teste_divisao_por_zero() {
+        let mut calc = Calculadora::new();
+        calc.somar(10.0);
+        
+        let resultado = calc.dividir(0.0);
+        assert!(resultado.is_err());
+    }
+
+    #[test]
+    fn teste_limpar() {
+        let mut calc = Calculadora::new();
+        
+        calc.somar(100.0)
+            .limpar();
+            
+        assert_eq!(calc.resultado(), 0.0);
+    }
+
+    #[test]
+    fn teste_operacoes_encadeadas() -> Result&lt;(), String&gt; {
+        let mut calc = Calculadora::new();
+        
+        calc.somar(10.0)
+            .multiplicar(3.0)
+            .dividir(2.0)?
+            .subtrair(5.0);
+            
+        assert_eq!(calc.resultado(), 10.0);
+        Ok(())
+    }
+}
+        </div>
+
+        <h2 class="section-subtitle">Comandos Úteis para Testes</h2>
+        
+        <div class="code-block">
+<span class="comment"># Executar todos os testes</span>
+cargo test
+
+<span class="comment"># Executar testes com saída detalhada</span>
+cargo test -- --nocapture
+
+<span class="comment"># Executar um teste específico</span>
+cargo test teste_soma_simples
+
+<span class="comment"># Executar testes que contêm uma palavra</span>
+cargo test soma
+
+<span class="comment"># Executar testes ignorados</span>
+cargo test -- --ignored
+
+<span class="comment"># Executar testes em paralelo (padrão) ou sequencial</span>
+cargo test -- --test-threads=1
+
+<span class="comment"># Mostrar saída de println! mesmo em testes que passam</span>
+cargo test -- --show-output
+        </div>
+
+        <h2 class="section-subtitle">Testes Ignorados e Condicionais</h2>
+        
+        <div class="code-block">
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn teste_rapido() {
+        assert_eq!(2 + 2, 4);
+    }
+
+    #[test]
+    #[ignore]
+    fn teste_lento() {
+        <span class="comment">// Teste que demora muito para executar</span>
+        <span class="comment">// Só executa com: cargo test -- --ignored</span>
+        std::thread::sleep(std::time::Duration::from_secs(10));
+        assert_eq!(1 + 1, 2);
+    }
+
+    #[test]
+    #[cfg(target_os = "linux")]
+    fn teste_especifico_linux() {
+        <span class="comment">// Só executa no Linux</span>
+        assert!(true);
+    }
+
+    #[test]
+    #[cfg(feature = "experimental")]
+    fn teste_feature_experimental() {
+        <span class="comment">// Só executa se a feature "experimental" estiver ativa</span>
+        <span class="comment">// cargo test --features experimental</span>
+        assert!(true);
+    }
+}
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-graduation-cap"></i> Você Aprendeu</h4>
+            <ul>
+                <li>Testes são <strong>parte da linguagem</strong> Rust - sem bibliotecas externas</li>
+                <li>Use <code>#[test]</code> para marcar funções de teste</li>
+                <li>Macros de asserção: <code>assert!</code>, <code>assert_eq!</code>, <code>assert_ne!</code></li>
+                <li><code>#[should_panic]</code> para testar que código deve entrar em pânico</li>
+                <li>Testes podem retornar <code>Result</code> para tratamento de erros</li>
+                <li><code>cargo test</code> executa todos os testes do projeto</li>
+                <li>Organize testes em módulos e use <code>#[ignore]</code> para testes lentos</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="ownership.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Ownership
+            </a>
+            <a href="crates.html" class="nav-button">
+                Crates <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

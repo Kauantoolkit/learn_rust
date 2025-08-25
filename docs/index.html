@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Básico em PTBR - Tutorial Completo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html" class="active">Início</a></li>
+                <li><a href="instalacao.html">Instalação</a></li>
+                <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html">Fundamentos</a></li>
+                <li><a href="ownership.html">Ownership</a></li>
+                <li><a href="testes.html">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Introdução à Linguagem de Programação Rust</h1>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> Sobre este Tutorial</h4>
+            <p>Este tutorial foi criado para ensinar os conceitos fundamentais da linguagem Rust de forma prática e didática. Em aproximadamente 20 minutos, você aprenderá desde a instalação até conceitos avançados como Ownership e Borrowing.</p>
+        </div>
+
+        <h2 class="section-subtitle">O que é Rust?</h2>
+        <p>Rust é uma linguagem de programação de sistemas que oferece uma combinação única de características:</p>
+        
+        <ul class="feature-list">
+            <li><span class="icon">1</span> <strong>Segurança de memória</strong> sem garbage collector</li>
+            <li><span class="icon">2</span> <strong>Performance</strong> comparável a C/C++</li>
+            <li><span class="icon">3</span> <strong>Concorrência</strong> sem data races</li>
+            <li><span class="icon">4</span> <strong>Abstrações de custo zero</strong></li>
+            <li><span class="icon">5</span> <strong>Ferramentas modernas</strong> integradas ao ecossistema</li>
+        </ul>
+
+        <p>Rust é adotada por grandes empresas como <strong>Microsoft</strong>, <strong>Google</strong>, <strong>Amazon</strong> e <strong>Mozilla</strong> para projetos críticos que exigem alta performance e confiabilidade.</p>
+
+        <h2 class="section-subtitle">Estrutura do Tutorial</h2>
+        
+        <div class="two-columns">
+            <div>
+                <h3>Parte 1: Fundamentos</h3>
+                <ul>
+                    <li><a href="instalacao.html">Instalação e Setup</a></li>
+                    <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                    <li><a href="fundamentos.html">Fundamentos da Linguagem</a></li>
+                </ul>
+                
+                <h3>Parte 2: Conceitos Avançados</h3>
+                <ul>
+                    <li><a href="ownership.html">Ownership e Borrowing</a></li>
+                    <li><a href="testes.html">Testes Nativos</a></li>
+                    <li><a href="crates.html">Ecossistema e Crates</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>Tempo Estimado por Seção</h3>
+                <ul>
+                    <li>Instalação: 2-3 minutos</li>
+                    <li>Iniciando Um Projeto: 3-4 minutos</li>
+                    <li>Fundamentos: 5-6 minutos</li>
+                    <li>Ownership: 4-5 minutos</li>
+                    <li>Testes: 2-3 minutos</li>
+                    <li>Crates: 2-3 minutos</li>
+                </ul>
+                
+                <div class="info-box tip">
+                    <h4><i class="fas fa-lightbulb"></i> Dica</h4>
+                    <p>Siga o tutorial na ordem apresentada para uma melhor compreensão dos conceitos.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Pré-requisitos</h2>
+        <p>Para acompanhar este tutorial, você precisa de:</p>
+        <ul>
+            <li>Conhecimento básico de programação em qualquer linguagem</li>
+            <li>Acesso a um terminal (Linux, macOS ou Windows com WSL)</li>
+            <li>Editor de código (recomendamos VS Code com a extensão rust-analyzer)</li>
+            <li>Conexão com a internet para download das ferramentas</li>
+        </ul>
+
+        <h2 class="section-subtitle">Por que Aprender Rust?</h2>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title">1 Performance</div>
+                <p>Rust oferece performance comparável a C e C++, sem sacrificar a segurança. Ideal para sistemas que exigem alta performance.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title">2 Segurança</div>
+                <p>O sistema de ownership previne bugs comuns como vazamentos de memória, buffer overflows e data races.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title">3 Versatilidade</div>
+                <p>Use Rust para desenvolvimento web, sistemas embarcados, blockchain, jogos e muito mais.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title">4 Comunidade</div>
+                <p>Comunidade acolhedora e ativa, com excelente documentação e ferramentas de desenvolvimento.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-rocket"></i> Pronto para Começar?</h4>
+            <p>Clique no botão abaixo para iniciar sua jornada com Rust!</p>
+        </div>
+
+        <div class="nav-buttons">
+            <div></div>
+            <a href="instalacao.html" class="nav-button">
+                Começar Tutorial <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+            <p>Rust e Ferris são marcas registradas da Mozilla Foundation.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

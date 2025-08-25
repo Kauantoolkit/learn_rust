@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ownership e Borrowing - Rust Básico em PTBR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="instalacao.html">Instalação</a></li>
+                <li><a href="primeiro-projeto.html">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html">Fundamentos</a></li>
+                <li><a href="ownership.html" class="active">Ownership</a></li>
+                <li><a href="testes.html">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Ownership e Borrowing: O Superpoder do Rust</h1>
+        
+        <p>O sistema de <strong>ownership</strong> (posse) é o que torna Rust único. É o mecanismo que garante segurança de memória sem precisar de um garbage collector, oferecendo performance de C/C++ com a segurança de linguagens de alto nível.</p>
+
+        <div class="info-box">
+            <h4><i class="fas fa-star"></i> Por que Ownership é Revolucionário?</h4>
+            <p>Tradicionalmente, linguagens de programação escolhem entre <strong>performance</strong> (C/C++) ou <strong>segurança</strong> (Java, Python). Rust é a primeira linguagem mainstream que oferece ambos através do sistema de ownership.</p>
+        </div>
+
+        <h2 class="section-subtitle">O Conceito de Ownership</h2>
+        
+        <p>Ownership é baseado em três regras simples que o compilador verifica em tempo de compilação:</p>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-user"></i></div>
+                <div><strong>Regra 1:</strong> Cada valor tem um único <span style="color: var(--rust-orange);">dono</span> (owner)</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-clock"></i></div>
+                <div><strong>Regra 2:</strong> Quando o dono sai de escopo, o valor é <span style="color: var(--rust-orange);">liberado</span> automaticamente</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div><strong>Regra 3:</strong> A posse pode ser <span style="color: var(--rust-orange);">transferida</span> (movida) para outro dono</div>
+            </div>
+        </div>
+
+        <h3>Transferência de Posse (Move)</h3>
+        
+        <p>Vamos ver como funciona na prática:</p>
+        
+        <div class="code-block">
+fn main() {
+    <span class="comment">// s1 é dona da String "Hello"</span>
+    let s1 = String::from("Hello");
+    
+    <span class="comment">// A posse é MOVIDA para s2</span>
+    let s2 = s1;
+    
+    <span class="comment">// s1 não é mais válida!</span>
+    <span class="comment">// println!("{}", s1); //  ERRO: borrow of moved value: `s1`</span>
+    
+    println!("{}", s2); <span class="comment">//  OK: s2 é a nova dona</span>
+} <span class="comment">// s2 sai de escopo e a memória é liberada automaticamente</span>
+        </div>
+        
+        <div class="info-box tip">
+            <h4><i class="fas fa-lightbulb"></i> Por que o Move Acontece?</h4>
+            <p>Para tipos como <code>String</code> que alocam memória no heap, Rust move a posse para evitar que dois ponteiros apontem para a mesma memória. Isso previne double-free errors e data races.</p>
+        </div>
+
+        <h3>Tipos que Implementam Copy</h3>
+        
+        <p>Nem todos os tipos são movidos. Tipos simples como inteiros implementam o trait <code>Copy</code>:</p>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title"> Tipos que são Movidos</div>
+                <div class="code-block">
+<span class="comment">// String, Vec, HashMap, etc.</span>
+let s1 = String::from("hello");
+let s2 = s1; <span class="comment">// s1 é movida</span>
+<span class="comment">// println!("{}", s1); // ERRO!</span>
+                </div>
+                <p>Tipos que alocam memória no heap são movidos para evitar problemas de memória.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"> Tipos que são Copiados</div>
+                <div class="code-block">
+<span class="comment">// i32, f64, bool, char, etc.</span>
+let x = 5;
+let y = x; <span class="comment">// x é copiado</span>
+println!("{} {}", x, y); <span class="comment">// OK!</span>
+                </div>
+                <p>Tipos simples que ficam na stack são copiados automaticamente.</p>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Borrowing: Empréstimo de Dados</h2>
+        
+        <p>E se você quiser usar um valor sem transferir a posse? É aí que entra o <strong>borrowing</strong> (empréstimo). Você pode "emprestar" uma referência ao valor usando <code>&</code>:</p>
+        
+        <div class="code-block">
+fn calcular_tamanho(s: &String) -> usize {
+    s.len() <span class="comment">// Função apenas lê o valor, não possui</span>
+} <span class="comment">// s sai de escopo, mas não possui o valor, então nada acontece</span>
+
+fn main() {
+    let texto = String::from("Rust é incrível!");
+    
+    <span class="comment">// Empresta uma referência com &</span>
+    let tamanho = calcular_tamanho(&texto);
+    
+    <span class="comment">// texto ainda é válida aqui!</span>
+    println!("'{}' tem {} caracteres", texto, tamanho);
+}
+        </div>
+
+        <h3>Tipos de Referências</h3>
+        
+        <p>Rust tem dois tipos de referências, cada uma com suas regras:</p>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title"> Referência Imutável (&T)</div>
+                <div class="code-block">
+let s = String::from("hello");
+let r1 = &s; <span class="comment">// OK</span>
+let r2 = &s; <span class="comment">// OK</span>
+let r3 = &s; <span class="comment">// OK</span>
+
+println!("{} {} {}", r1, r2, r3);
+                </div>
+                <p><strong>Múltiplas referências imutáveis são permitidas</strong> - você pode ter quantas quiser, pois nenhuma pode modificar o valor.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"> Referência Mutável (&mut T)</div>
+                <div class="code-block">
+let mut s = String::from("hello");
+let r1 = &mut s; <span class="comment">// OK</span>
+<span class="comment">// let r2 = &mut s; //  ERRO!</span>
+
+r1.push_str(", world!");
+println!("{}", r1);
+                </div>
+                <p><strong>Apenas uma referência mutável é permitida</strong> - isso previne data races em tempo de compilação.</p>
+            </div>
+        </div>
+
+        <h3>Regras do Borrowing</h3>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-eye"></i></div>
+                <div>Você pode ter <strong>quantas referências imutáveis</strong> quiser</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-edit"></i></div>
+                <div>Você pode ter <strong>apenas uma referência mutável</strong> por vez</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-ban"></i></div>
+                <div><strong>Não pode misturar</strong> referências mutáveis e imutáveis</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-clock"></i></div>
+                <div>Referências devem sempre ser <strong>válidas</strong> (não podem apontar para memória liberada)</div>
+            </div>
+        </div>
+
+        <h3>Exemplo Prático: Modificando Dados</h3>
+        
+        <div class="code-block">
+fn adicionar_exclamacao(s: &mut String) {
+    s.push('!');
+}
+
+fn contar_palavras(s: &String) -> usize {
+    s.split_whitespace().count()
+}
+
+fn main() {
+    let mut frase = String::from("Rust é seguro");
+    
+    <span class="comment">// Empréstimo imutável</span>
+    let palavras = contar_palavras(&frase);
+    println!("A frase tem {} palavras", palavras);
+    
+    <span class="comment">// Empréstimo mutável</span>
+    adicionar_exclamacao(&mut frase);
+    println!("Frase modificada: {}", frase);
+    
+    <span class="comment">// Múltiplos empréstimos imutáveis</span>
+    let r1 = &frase;
+    let r2 = &frase;
+    println!("r1: {}, r2: {}", r1, r2);
+}
+        </div>
+
+        <h2 class="section-subtitle">Lifetimes: Tempo de Vida</h2>
+        
+        <p>Às vezes, o compilador precisa de ajuda para entender por quanto tempo as referências são válidas. É aí que entram os <strong>lifetimes</strong>:</p>
+        
+        <div class="code-block">
+<span class="comment">// Função que retorna a maior das duas strings</span>
+fn maior<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn main() {
+    let string1 = String::from("longa string");
+    let string2 = "curta";
+    
+    let resultado = maior(&string1, string2);
+    println!("A maior string é: {}", resultado);
+}
+        </div>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> Sobre Lifetimes</h4>
+            <p>O <code>'a</code> é um <strong>lifetime parameter</strong> que diz ao compilador que a referência retornada viverá pelo menos tanto quanto as referências de entrada. Na maioria dos casos, Rust infere lifetimes automaticamente!</p>
+        </div>
+
+        <h2 class="section-subtitle">Exemplo Completo: Sistema de Usuários</h2>
+        
+        <div class="code-block">
+struct Usuario {
+    nome: String,
+    email: String,
+    ativo: bool,
+}
+
+impl Usuario {
+    <span class="comment">// Método que empresta self imutavelmente</span>
+    fn exibir_info(&self) {
+        println!("Usuário: {} ({})", self.nome, self.email);
+        println!("Status: {}", if self.ativo { "Ativo" } else { "Inativo" });
+    }
+    
+    <span class="comment">// Método que empresta self mutavelmente</span>
+    fn ativar(&mut self) {
+        self.ativo = true;
+        println!("Usuário {} foi ativado!", self.nome);
+    }
+    
+    <span class="comment">// Método que toma posse de self</span>
+    fn deletar(self) -> String {
+        println!("Deletando usuário {}...", self.nome);
+        self.nome <span class="comment">// Retorna o nome antes de deletar</span>
+    }
+}
+
+fn processar_usuario(usuario: &Usuario) {
+    println!("Processando usuário: {}", usuario.nome);
+}
+
+fn main() {
+    let mut usuario = Usuario {
+        nome: String::from("Ana Silva"),
+        email: String::from("ana@email.com"),
+        ativo: false,
+    };
+    
+    <span class="comment">// Empréstimo imutável</span>
+    usuario.exibir_info();
+    processar_usuario(&usuario);
+    
+    <span class="comment">// Empréstimo mutável</span>
+    usuario.ativar();
+    
+    <span class="comment">// Transferência de posse</span>
+    let nome_deletado = usuario.deletar();
+    println!("Nome do usuário deletado: {}", nome_deletado);
+    
+    <span class="comment">// usuario não pode mais ser usado aqui!</span>
+    <span class="comment">// println!("{}", usuario.nome); // ERRO!</span>
+}
+        </div>
+
+        <h2 class="section-subtitle">Benefícios do Sistema de Ownership</h2>
+        
+        <div class="two-columns">
+            <div>
+                <h3>1 Segurança de Memória</h3>
+                <ul>
+                    <li>Sem vazamentos de memória</li>
+                    <li>Sem buffer overflows</li>
+                    <li>Sem use-after-free</li>
+                    <li>Sem double-free errors</li>
+                </ul>
+                
+                <h3>⚡ Performance</h3>
+                <ul>
+                    <li>Zero custo em runtime</li>
+                    <li>Sem garbage collector</li>
+                    <li>Otimizações agressivas</li>
+                    <li>Controle total da memória</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>2 Concorrência Segura</h3>
+                <ul>
+                    <li>Sem data races</li>
+                    <li>Thread safety garantida</li>
+                    <li>Paralelismo sem medo</li>
+                    <li>Send e Sync automáticos</li>
+                </ul>
+                
+                <h3>3 Clareza de Código</h3>
+                <ul>
+                    <li>Intenções explícitas</li>
+                    <li>Menos bugs sutis</li>
+                    <li>Código autodocumentado</li>
+                    <li>Refatoração segura</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-graduation-cap"></i> Você Aprendeu</h4>
+            <ul>
+                <li><strong>Ownership</strong>: Cada valor tem um único dono, transferência de posse com move</li>
+                <li><strong>Borrowing</strong>: Emprestar referências sem transferir posse</li>
+                <li><strong>Referências imutáveis</strong> (&T): Múltiplas permitidas, apenas leitura</li>
+                <li><strong>Referências mutáveis</strong> (&mut T): Apenas uma por vez, permite modificação</li>
+                <li><strong>Lifetimes</strong>: Garantem que referências são sempre válidas</li>
+                <li>O compilador verifica tudo em <strong>tempo de compilação</strong> - zero custo em runtime!</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="fundamentos.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Fundamentos
+            </a>
+            <a href="testes.html" class="nav-button">
+                Testes <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

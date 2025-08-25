@@ -1,0 +1,358 @@
+/* Rust Tutorial Documentation Styles */
+
+:root {
+  --rust-orange: #FF7043;
+  --rust-dark: #2b2b2b;
+  --rust-gray: #4d4d4d;
+  --rust-light-gray: #e0e0e0;
+  --rust-code-bg: #1e1e1e;
+  --rust-accent: #FFB74D;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: var(--rust-dark);
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-section img {
+  height: 40px;
+  width: auto;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: var(--rust-orange);
+}
+
+/* Navigation */
+.nav {
+  background: #333;
+  padding: 0.5rem 0;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.nav li {
+  flex: 1;
+  min-width: 150px;
+}
+
+.nav a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.3s;
+  text-align: center;
+  border-right: 1px solid #555;
+}
+
+.nav a:hover,
+.nav a.active {
+  background-color: var(--rust-orange);
+}
+
+.nav li:last-child a {
+  border-right: none;
+}
+
+/* Main Content */
+.main {
+  background: white;
+  margin: 2rem 0;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.section-title {
+  color: var(--rust-orange);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-bottom: 3px solid var(--rust-orange);
+  padding-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--rust-orange);
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem 0;
+  border-left: 4px solid var(--rust-orange);
+  padding-left: 1rem;
+}
+
+/* Code Blocks */
+.code-block {
+  background: var(--rust-code-bg);
+  color: var(--rust-light-gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid var(--rust-orange);
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  line-height: 1.4;
+}
+
+.code-block .comment {
+  color: #6A9955;
+  font-style: italic;
+}
+
+.code-block .highlight {
+  color: var(--rust-orange);
+  font-weight: bold;
+}
+
+/* Terminal Blocks */
+.terminal-block {
+  background: #000;
+  color: #00ff00;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid var(--rust-orange);
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+}
+
+/* Info Boxes */
+.info-box {
+  background: rgba(255, 112, 67, 0.1);
+  border: 1px solid var(--rust-orange);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--rust-orange);
+}
+
+.info-box.tip {
+  background: rgba(255, 183, 77, 0.1);
+  border-color: var(--rust-accent);
+  border-left-color: var(--rust-accent);
+}
+
+.info-box h4 {
+  color: var(--rust-orange);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Two Column Layout */
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Feature List */
+.feature-list {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+
+.feature-list li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feature-list .icon {
+  color: var(--rust-orange);
+  font-weight: bold;
+}
+
+/* Rules Container */
+.rules-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid #dee2e6;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.rule-item:last-child {
+  margin-bottom: 0;
+}
+
+.rule-icon {
+  color: var(--rust-orange);
+  font-size: 1.2rem;
+  min-width: 20px;
+}
+
+/* Comparison Boxes */
+.comparison-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.comparison-item {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.comparison-title {
+  color: var(--rust-orange);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .comparison-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.nav-button {
+  background: var(--rust-orange);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-button:hover {
+  background: #e55a2b;
+  color: white;
+}
+
+.nav-button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.footer {
+  background: var(--rust-dark);
+  color: white;
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav ul {
+    flex-direction: column;
+  }
+  
+  .nav li {
+    min-width: auto;
+  }
+  
+  .nav a {
+    border-right: none;
+    border-bottom: 1px solid #555;
+  }
+  
+  .main {
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+/* Syntax Highlighting */
+.rust { color: #ce9178; }
+.keyword { color: #569cd6; }
+.string { color: #ce9178; }
+.number { color: #b5cea8; }
+.function { color: #dcdcaa; }
+.type { color: #4ec9b0; }
+

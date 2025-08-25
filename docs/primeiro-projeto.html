@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciando Um Projeto - Rust Básico em PTBR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/rust_logo_gear.png" alt="Logo do Rust">
+                    <img src="images/ferris_crab.png" alt="Ferris - Mascote do Rust">
+                    <h1>Rust Básico em PTBR</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="instalacao.html">Instalação</a></li>
+                <li><a href="primeiro-projeto.html" class="active">Iniciando Um Projeto</a></li>
+                <li><a href="fundamentos.html">Fundamentos</a></li>
+                <li><a href="ownership.html">Ownership</a></li>
+                <li><a href="testes.html">Testes</a></li>
+                <li><a href="crates.html">Crates</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <h1 class="section-title">Primeiros Passos</h1>
+        
+        <p>Agora que o Rust está instalado, vamos criar nosso Iniciando Um Projeto! O Cargo torna isso incrivelmente simples e já configura tudo que você precisa para começar a programar.</p>
+
+        <h2 class="section-subtitle">Criando um Novo Projeto</h2>
+        
+        <p>Use o comando <code>cargo new</code> para criar um novo projeto:</p>
+        
+        <div class="terminal-block">
+$ cargo new ola_rust
+     Created binary (application) `ola_rust` package
+
+$ cd ola_rust
+        </div>
+        
+        <div class="info-box tip">
+            <h4><i class="fas fa-lightbulb"></i> Dica</h4>
+            <p>O Cargo cria automaticamente um projeto completo com estrutura de diretórios, arquivos de configuração e até um repositório Git!</p>
+        </div>
+
+        <h2 class="section-subtitle">Estrutura do Projeto</h2>
+        
+        <p>Vamos explorar o que o Cargo criou para nós:</p>
+        
+        <div class="two-columns">
+            <div>
+                <h3>Árvore de Diretórios</h3>
+                <div class="code-block">
+ola_rust/
+├── Cargo.toml          <span class="comment"># Manifesto do projeto</span>
+├── src/
+│   └── main.rs         <span class="comment"># Código-fonte principal</span>
+├── target/             <span class="comment"># Gerado ao compilar</span>
+└── .git/               <span class="comment"># Repositório Git</span>
+                </div>
+            </div>
+            
+            <div>
+                <h3>Arquivos Importantes</h3>
+                <div class="rules-container">
+                    <div class="rule-item">
+                        <div class="rule-icon"><i class="fas fa-file-alt"></i></div>
+                        <div><strong>Cargo.toml</strong> - Configuração e dependências</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon"><i class="fas fa-file-code"></i></div>
+                        <div><strong>src/main.rs</strong> - Ponto de entrada do programa</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon"><i class="fas fa-folder"></i></div>
+                        <div><strong>target/</strong> - Arquivos compilados (gerado automaticamente)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Explorando o Cargo.toml</h2>
+        
+        <p>O arquivo <code>Cargo.toml</code> é o coração do seu projeto. Vamos ver o que ele contém:</p>
+        
+        <div class="code-block">
+[package]
+name = "ola_rust"
+version = "0.1.0"
+edition = "2021"
+
+<span class="comment"># Dependências do projeto (inicialmente vazio)</span>
+[dependencies]
+        </div>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> Sobre o Cargo.toml</h4>
+            <ul>
+                <li><strong>name</strong>: Nome do seu projeto</li>
+                <li><strong>version</strong>: Versão atual (segue versionamento semântico)</li>
+                <li><strong>edition</strong>: Edição do Rust (2021 é a mais recente)</li>
+                <li><strong>dependencies</strong>: Bibliotecas externas que seu projeto usa</li>
+            </ul>
+        </div>
+
+        <h2 class="section-subtitle">Seu Primeiro "Olá, Mundo!"</h2>
+        
+        <p>O Cargo já criou um programa "Olá, Mundo!" para nós. Vamos ver o conteúdo de <code>src/main.rs</code>:</p>
+        
+        <div class="code-block">
+fn main() {
+    println!("Hello, world!");
+}
+        </div>
+        
+        <p>Vamos personalizar nossa mensagem:</p>
+        
+        <div class="code-block">
+fn main() {
+    println!("Olá, Rust!");
+    println!("Bem-vindo ao mundo da programação de sistemas!");
+}
+        </div>
+
+        <h2 class="section-subtitle">Compilando e Executando</h2>
+        
+        <p>O Cargo oferece várias maneiras de trabalhar com seu projeto:</p>
+        
+        <div class="comparison-container">
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-play"></i> cargo run</div>
+                <p><strong>Compila e executa</strong> o projeto em um único comando. Ideal para desenvolvimento.</p>
+                <div class="terminal-block">
+$ cargo run
+   Compiling ola_rust v0.1.0 (/path/to/ola_rust)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.75s
+     Running `target/debug/ola_rust`
+Olá, Rust!
+Bem-vindo ao mundo da programação de sistemas!
+                </div>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-check"></i> cargo check</div>
+                <p><strong>Verifica se o código compila</strong> sem gerar executável. Muito mais rápido que <code>cargo run</code>.</p>
+                <div class="terminal-block">
+$ cargo check
+    Checking ola_rust v0.1.0 (/path/to/ola_rust)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.32s
+                </div>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-hammer"></i> cargo build</div>
+                <p><strong>Apenas compila</strong> o projeto, gerando o executável em <code>target/debug/</code>.</p>
+                <div class="terminal-block">
+$ cargo build
+   Compiling ola_rust v0.1.0 (/path/to/ola_rust)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.75s
+                </div>
+            </div>
+            
+            <div class="comparison-item">
+                <div class="comparison-title"><i class="fas fa-rocket"></i> cargo build --release</div>
+                <p><strong>Compilação otimizada</strong> para produção. Mais lenta, mas gera executáveis muito mais rápidos.</p>
+                <div class="terminal-block">
+$ cargo build --release
+   Compiling ola_rust v0.1.0 (/path/to/ola_rust)
+    Finished release [optimized] target(s) in 1.23s
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Entendendo a Função main</h2>
+        
+        <p>Vamos analisar nosso código linha por linha:</p>
+        
+        <div class="code-block">
+<span class="comment">// Função principal - ponto de entrada do programa</span>
+fn main() {
+    <span class="comment">// println! é uma macro (note o !)</span>
+    <span class="comment">// Imprime texto na tela com quebra de linha</span>
+    println!("Olá, Rust!");
+}
+        </div>
+        
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-play"></i></div>
+                <div><code>fn main()</code> - Toda aplicação Rust começa aqui</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-exclamation"></i></div>
+                <div><code>println!</code> - Macro para imprimir texto (note o !)</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-code"></i></div>
+                <div>Chaves <code>{}</code> - Delimitam blocos de código</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-icon"><i class="fas fa-semicolon"></i></div>
+                <div>Ponto-e-vírgula <code>;</code> - Termina declarações</div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">Comandos Úteis do Cargo</h2>
+        
+        <div class="code-block">
+<span class="comment"># Criar novo projeto</span>
+cargo new meu_projeto
+
+<span class="comment"># Criar biblioteca em vez de aplicação</span>
+cargo new minha_lib --lib
+
+<span class="comment"># Limpar arquivos compilados</span>
+cargo clean
+
+<span class="comment"># Mostrar informações do projeto</span>
+cargo metadata
+
+<span class="comment"># Formatar código automaticamente</span>
+cargo fmt
+
+<span class="comment"># Executar linter (clippy)</span>
+cargo clippy
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fas fa-graduation-cap"></i> Você Aprendeu</h4>
+            <ul>
+                <li>Como criar um projeto Rust com <code>cargo new</code></li>
+                <li>A estrutura básica de um projeto Rust</li>
+                <li>Como compilar e executar código com <code>cargo run</code></li>
+                <li>A diferença entre <code>cargo run</code>, <code>cargo check</code> e <code>cargo build</code></li>
+                <li>A anatomia básica de um programa Rust</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="instalacao.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Instalação
+            </a>
+            <a href="fundamentos.html" class="nav-button">
+                Fundamentos <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tutorial de Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
