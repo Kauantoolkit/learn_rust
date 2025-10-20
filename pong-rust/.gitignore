@@ -1,0 +1,9 @@
+# Diretório de build do Cargo
+target/
+
+# Arquivo de bloqueio de dependências (geralmente é melhor NÃO ignorá-lo)
+#
+# A EXCEÇÃO: Se você estiver criando uma biblioteca (crate library) 
+# que será usada como dependência em outros projetos, você pode ignorá-lo.
+# Se for um aplicativo (crate binary), o Cargo.lock DEVE ser versionado.
+Cargo.lock
