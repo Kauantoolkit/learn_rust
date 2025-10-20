@@ -55,7 +55,7 @@ impl GameState {
         // Configurações das raquetes
         let paddle_width = 15.0;
         let paddle_height = 80.0;
-        let paddle_offset = 30.0;
+        let paddle_offset = 30.0;  // Offset da raquete em relação à borda da tela
         let paddle_speed = 400.0;
         
         // Cria raquete esquerda (jogador 1)
@@ -66,11 +66,20 @@ impl GameState {
             paddle_height,
             paddle_speed,
         );
-        
+
+
+
+    // * `x` - Posição X inicial
+    // * `y` - Posição Y inicial
+    // * `width` - Largura da raquete
+    // * `height` - Altura da raquete
+    // * `speed` - Velocidade de movimento
         // Cria raquete direita (jogador 2)
-        let paddle_right = Paddle::new(
+        
+        let paddle_right = Paddle::new( 
             screen_width - paddle_offset - paddle_width,
             (screen_height - paddle_height) / 2.0,
+            paddle_width,
             paddle_height,
             paddle_speed,
         );
@@ -84,6 +93,7 @@ impl GameState {
         );
         
         GameState {
+            screen_height,
             screen_width,
             background_color: Color::RGB(20, 20, 30),
             phase: GamePhase::Menu,
@@ -195,8 +205,8 @@ impl GameState {
         let dash_height = 15;
         let dash_gap = 10;
         let dash_width = 3;
-        
-        let y = 0;
+        //ta redeclarando o y sem ser mutavel
+        let mut y = 0;
         while y < self.screen_height as i32 {
             let rect = Rect::new(center_x - dash_width / 2, y, dash_width as u32, dash_height as u32);
             canvas.fill_rect(rect).unwrap();

@@ -42,7 +42,10 @@ impl Paddle {
     /// # Argumentos
     /// 
     /// * `delta_time` - Tempo decorrido desde o último frame (em segundos)
-    pub fn move_up(self, delta_time: f32) {
+
+    //sinceramente n entendi pq ta errado
+    //ata n ta mutable
+    pub fn move_up(&mut self, delta_time: f32) {
         self.y -= self.speed * delta_time;
         
         // Limita a raquete para não sair da tela (topo)
@@ -72,6 +75,9 @@ impl Paddle {
     /// 
     /// * `target_y` - Posição Y alvo (centro da raquete)
     /// * `screen_height` - Altura da tela
+
+    
+    
      pub fn move_to(&mut self, target_y: f32, screen_height: f32) {
          // Centraliza a raquete na posição do mouse
          self.y = target_y - self.height / 2.0;
@@ -110,7 +116,7 @@ impl Paddle {
     pub fn get_rect(&self) -> Rect {
         Rect::new(
             self.x as i32,
-            self.y as u8,
+            self.y as i32,
             self.width as u32,
             self.height as u32,
         )

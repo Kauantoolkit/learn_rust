@@ -44,7 +44,7 @@ impl Ball {
     /// Lança a bola em uma direção aleatória
     /// A bola sempre começa indo para a esquerda ou direita com um ângulo aleatório
     pub fn launch(&mut self) {
-        let rng = rand::rng();
+        let mut rng = rand::rng();
         
         // Escolhe direção aleatória (esquerda ou direita)
         let direction = if rng.random_bool(0.5) { 1.0 } else { -1.0 };
@@ -62,7 +62,8 @@ impl Ball {
     /// # Argumentos
     /// 
     /// * `delta_time` - Tempo decorrido desde o último frame (em segundos)
-    fn update(&mut self, delta_time: f32) {
+    //deixar publico
+    pub fn update(&mut self, delta_time: f32) {
         self.x += self.vel_x * delta_time;
         self.y += self.vel_y * delta_time;
     }
